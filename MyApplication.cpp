@@ -1,4 +1,5 @@
 class MyApplication {
     public:
-        void run();
+        void run() {
+        }
 };
