@@ -1,7 +1,8 @@
-
+#include <string>
+using namespace std;
 class Usuario {
 public:
-    int getApodo() {return apodo;} 
+    string getApodo() {return apodo;}
 private:
     string apodo;
 };
