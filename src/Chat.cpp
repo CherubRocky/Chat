@@ -8,6 +8,7 @@
 
 #include "Modelo/Cliente.cpp"
 #include "Vista/Despliegue.cpp"
+#include "Controlador/GeneradorJSON.cpp"
 
 using namespace std;
 
@@ -17,6 +18,8 @@ int main(int argc, char const *argv[]) {
     string ip = vista.obtenerIP();
     int puerto = vista.obtenerPuerto();
     cliente.conectarse(ip, puerto);
-    vista.obtenerNombre();
+    string nombre = vista.obtenerNombre();
+    GeneradorJSON genJson(nombre);
+    cout << genJson.identificarse() << endl;
     // conectarse al socket servidor
 }
