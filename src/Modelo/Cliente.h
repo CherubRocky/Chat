@@ -1,14 +1,14 @@
+#include <cstring>
 #ifndef CLIENTE_H  // Guardas de inclusión para prevenir múltiples inclusiones
 #define CLIENTE_H
 
 class Cliente {
 public:
     Cliente();
-    void procesaCosa();
+    void conectarse(std::string, int);
 
 private:
-    int socket_cliente;  // Descriptor
-
+    int socketCliente;  // Descriptor
 };
 
 #endif
