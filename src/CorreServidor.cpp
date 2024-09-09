@@ -4,6 +4,6 @@ using namespace std;
 int main(int argc, char const *argv[]) {
     /* code */
     Servidor servidorcito;
-    servidorcito.procesaCosa();
+    servidorcito.servir();
     return 0;
 }
