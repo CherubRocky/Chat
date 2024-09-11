@@ -14,3 +14,36 @@ string GeneradorJSON::identificarse() {
     mensajeIdentification["username"] = nombreUsuario;
     return mensajeIdentification.dump();
 }
+
+string GeneradorJSON::aceptarUsuario(string nombre) {
+    json mensajeExitoso;
+    mensajeExitoso["type"] = "RESPONSE";
+    mensajeExitoso["operation"] = "IDENTIFY";
+    mensajeExitoso["result"] = "SUCCESS";
+    mensajeExitoso["extra"] = nombre;
+    return mensajeExitoso.dump();
+}
+
+string GeneradorJSON::mandarNuevoUsuario(string nombre) {
+    json nuevoUsuario;
+    nuevoUsuario["type"] = "NEW_USER";
+    nuevoUsuario["username"] = nombre;
+    return nuevoUsuario.dump();
+}
+
+string GeneradorJSON::rechazarUsuario(string nombre) {
+    json mensajeError;
+    mensajeError["type"] = "RESPONSE";
+    mensajeError["operation"] = "IDENTIFY";
+    mensajeError["result"] = "USER_ALREADY_EXISTS";
+    mensajeError["extra"] = nombre;
+    return mensajeError.dump();
+}
+
+string GeneradorJSON::rechazarNoIdentificado() {
+    json mensajeError;
+    mensajeError["type"] = "RESPONSE";
+    mensajeError["operation"] = "INVALID";
+    mensajeError["result"] = "NOT_IDENTIFIED";
+    return mensajeError.dump();
+}

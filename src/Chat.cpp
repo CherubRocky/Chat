@@ -21,5 +21,6 @@ int main(int argc, char const *argv[]) {
     string nombre = vista.obtenerNombre();
     GeneradorJSON genJson(nombre);
     cout << genJson.identificarse() << endl;
+    cliente.enviarMensaje(genJson.identificarse());
     // conectarse al socket servidor
 }

@@ -22,3 +22,7 @@ void Cliente::conectarse(string ip, int puerto) {
     connect(socketCliente, (struct sockaddr*)&addrServidor, sizeof(addrServidor));
     cout << "conexión exitosa." << endl;
 }
+
+void Cliente::enviarMensaje(string mensaje) {
+    send(socketCliente, mensaje.c_str(), strlen(mensaje.c_str()), 0);
+}

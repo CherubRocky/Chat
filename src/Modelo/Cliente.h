@@ -6,6 +6,7 @@ class Cliente {
 public:
     Cliente();
     void conectarse(std::string, int);
+    void enviarMensaje(std::string);
 
 private:
     int socketCliente;  // Descriptor

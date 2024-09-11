@@ -1,16 +1,26 @@
 #ifndef SERVIDOR_H
 #define SERVIDOR_H
+#include <map>
+#include <string>
+using namespace std;
 
 class Servidor {
 public:
     Servidor();
-    void procesaCosa();
     void servir();
     void aceptarConnection();
 
 private:
     void manejarCliente(int);
-    int socketServidor;  // Descriptor
+    bool existeNombre(string, string&, int);
+    bool esIDENTIFY(string);
+    void mensajeNUExitoso(string);
+    void mensajeNUFallo(int, string);
+    void mandarMensaje(string, string);
+    void mandarNotID(int);
+    void enviarMensajeMenosUno(string, string);
+    int socketServidor;
+    map<string, int> diccionarioNombres;
 };
 
 #endif
