@@ -7,6 +7,8 @@ public:
     bool esIDValid();
     bool esJSON();
     void parseJSON();
+    bool aceptadoBienFormado(string);
+    bool fueAceptado();
     std::string getNombreID();
 
 private:

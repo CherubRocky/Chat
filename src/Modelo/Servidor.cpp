@@ -45,6 +45,7 @@ void Servidor::manejarCliente(int socketCliente) {
     while (sigue) {
         char mensaje2[1024] = {0};
         recv(socketCliente, mensaje2, sizeof(mensaje2), 0);
+        
     }
 }
 

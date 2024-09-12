@@ -33,3 +33,20 @@ bool AnalizadorJSON::esIDValid() {
 string AnalizadorJSON::getNombreID() {
     return jason["username"];
 }
+
+bool AnalizadorJSON::aceptadoBienFormado(string nombre) {
+    if (jason.size() != 4 || !json.contains("type") || !jason.contains("operation") ||
+        !jason.contains("result") || !jason.contains("extra")) {
+        return false;
+    }
+    if (jason["type"] != "RESPONSE" || jason["operation"] != "IDENTIFY" ||
+        !(jason["result"] == "USER_ALREADY_EXISTS" || jason["result"] == "SUCCESS") ||
+        jason["extra"] != nombre) {
+        return false;
+    }
+    return true;
+}
+
+bool AnalizadorJSON::fueAceptado() {
+    return jason["result"] == "SUCCESS";
+}

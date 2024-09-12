@@ -7,6 +7,7 @@ public:
     Cliente();
     void conectarse(std::string, int);
     void enviarMensaje(std::string);
+    void loopsitoRico();
 
 private:
     int socketCliente;  // Descriptor

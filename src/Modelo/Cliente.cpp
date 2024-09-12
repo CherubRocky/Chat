@@ -1,11 +1,13 @@
 #include "Servidor.h"
 #include <cstring>
+#include <string>
 #include <iostream>
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <unistd.h>
 #include "Cliente.h"
+#include "../Controlador/AnalizadorJSON.cpp"
 using namespace std;
 
 Cliente::Cliente() {
@@ -25,4 +27,32 @@ void Cliente::conectarse(string ip, int puerto) {
 
 void Cliente::enviarMensaje(string mensaje) {
     send(socketCliente, mensaje.c_str(), strlen(mensaje.c_str()), 0);
+}
+
+void Cliente::loopsitoRico() {
+    char buffer[1024] = {0};
+    while (true) {
+        int valread = recv(socketCliente, buffer, 1024, 0);
+        string s(buffer);
+        cout << buffer;
+        cout.flush();
+    }
+}
+
+string Cliente::recibirMensaje() {
+    char buffer[1024] = {0}
+    recv(socketCliente, buffer, 1024, 0);
+    string msg(buffer);
+    return msg;
+}
+
+boolean Cliente::fueAceptado(string nombre) {
+    string msg = recibirMensaje();
+    AnalizadorJSON aJSON(msg);
+    if (aJSON.esJSON()) {
+        aJSON.parseJSON();
+        return aJSON.aceptadoBienFormado(nombre) && aJSON.fueAceptado()
+    }
+    cout << "El servidor no implementa el protocolo correctamente." << endl;
+    return false;
 }
