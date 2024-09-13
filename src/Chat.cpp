@@ -82,6 +82,14 @@ void escuchar(Cliente& cliente, string nombre, bool& sigue, Despliegue& vista) {
                 jason.contains("text") && jason["type"] == "ROOM_TEXT_FROM") {
                 /* code */
             }
+            else if (jason["type"] == "RESPONSE" && jason.contains("operation") &&
+                jason.contains("result") && jason.contains("extra")) {
+
+                if (jason["operation"] == "TEXT" && jason["result"] == "NO_SUCH_USER") {
+                    string extra = jason["extra"];
+                    vista.mostrarMensajeDelSistema("El nombre de usuario " + extra + " no existe.");
+                }
+            }
         }
         else {
             sigue = false;
@@ -104,11 +112,16 @@ void interactuar(Cliente& cliente, string nombre, bool& sigue, Despliegue& vista
                 json = gJSON.publicMessageClient(mensaje);
                 break;
             case 2:
+                string usr = vista.obtenerDestinatario();
+                mensaje = vista.obtenerMensaje();
+                json = gJSON.privateMessageClient(usr, mensaje);
                 break;
-            case 3:
-                break;
-            case 4:
-                break;
+            // case 3:
+            //     cout << "no sirve";
+            //     break;
+            // case 4:
+            //     cout << "no sirve";
+            //     break;
         }
         cliente.enviarMensaje(json);
     }

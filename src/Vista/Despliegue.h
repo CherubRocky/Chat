@@ -14,8 +14,11 @@ public:
     void showRoomMessage(string, string, string);
     void deployMenu();
     int getOption();
+    string obtenerDestinatario();
+    void mostrarMensajeDelSistema(string);
 private:
     string colorearCadena(string);
+    string getBold(string);
 };
 
 #endif

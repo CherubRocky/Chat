@@ -1,17 +1,21 @@
 #ifndef GENERADORJSON_H
 #define GENERADORJSON_H
 #include <string>
+using namespace std;
 class GeneradorJSON {
 public:
-    GeneradorJSON(std::string);
-    std::string identificarse();
-    std::string aceptarUsuario(std::string);
-    std::string mandarNuevoUsuario(std::string);
-    std::string rechazarUsuario(std::string);
-    std::string rechazarNoIdentificado();
-    std::string publicTextFrom(std::string, std::string);
-    std::string publicMessageClient(std::string);
+    GeneradorJSON(string);
+    string identificarse();
+    string aceptarUsuario(string);
+    string mandarNuevoUsuario(string);
+    string rechazarUsuario(string);
+    string rechazarNoIdentificado();
+    string publicTextFrom(string, string);
+    string publicMessageClient(string);
+    string privateMessageClient(string, string);
+    string textFrom(string, string);
+    string textNoSuchUser(string);
 private:
-    std::string nombreUsuario;
+    string nombreUsuario;
 };
 #endif

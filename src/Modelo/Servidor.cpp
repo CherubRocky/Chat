@@ -77,6 +77,20 @@ void Servidor::procesarJSON(string nombre, string mensaje, bool& sigue) {
         }
     }
     else if (jason.size() == 3) {
+        if (jason.contains("username")) {
+            if (jason.contains("text") && jason["type"] == "TEXT") {
+                if (diccionarioNombres.find(jason["username"]) != diccionarioNombres.end()) {
+                    mandarMensaje(jason["username"], gJSON.textFrom(nombre, jason["text"]));
+                }
+                else {
+                    mandarMensaje(nombre, gJSON.textNoSuchUser(jason["username"]));
+                }
+            }
+
+            else if (true) {
+
+            }
+        }
         /* code */
     }
     else if (jason.size() == 4) {

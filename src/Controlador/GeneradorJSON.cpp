@@ -62,3 +62,28 @@ string GeneradorJSON::publicMessageClient(string texto) {
     txtCliente["text"] = texto;
     return txtCliente.dump();
 }
+
+string GeneradorJSON::privateMessageClient(string usuario, string texto) {
+    json txtPrivCliente;
+    txtPrivCliente["type"] = "TEXT";
+    txtPrivCliente["username"] = usuario;
+    txtPrivCliente["text"] = texto;
+    return txtPrivCliente.dump();
+}
+
+string GeneradorJSON::textFrom(string usuarioEmisor, string texto) {
+    json txtPrivCliente;
+    txtPrivCliente["type"] = "TEXT_FROM";
+    txtPrivCliente["username"] = usuarioEmisor;
+    txtPrivCliente["text"] = texto;
+    return txtPrivCliente.dump();
+}
+
+string GeneradorJSON::textNoSuchUser(string noExistente) {
+    json txtPrivCliente;
+    txtPrivCliente["type"] = "RESPONSE";
+    txtPrivCliente["operation"] = "TEXT";
+    txtPrivCliente["result"] = "NO_SUCH_USER";
+    txtPrivCliente["extra"] = noExistente;
+    return txtPrivCliente.dump();
+}

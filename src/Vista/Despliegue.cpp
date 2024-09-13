@@ -34,11 +34,7 @@ string Despliegue::obtenerNombre() {
 }
 
 void Despliegue::showPublicMessage(string usuario, string mensaje) {
-    cout << colorearCadena(usuario) << " " << mensaje << endl;
-}
-
-void Despliegue::showPrivateMessage(string usuario, string mensaje) {
-    cout << colorearCadena(usuario) << " " << mensaje << endl;
+    cout << colorearCadena(usuario) << ": " << mensaje << endl;
 }
 
 void Despliegue::showRoomMessage(string cuarto, string usuario, string mensaje) {
@@ -97,4 +93,23 @@ int Despliegue::getOption() {
     } while(notValid);
     cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     return num;
+}
+
+string Despliegue::obtenerDestinatario() {
+    cout << "Ingrese el nombre del usuario al que desea mandar un mensaje." << endl;
+    string nombre;
+    getline(cin, nombre);
+    return nombre;
+}
+
+string Despliegue::getBold(string mensaje) {
+    return string("\033[1m").append(mensaje).append("\033[0m");
+}
+
+void Despliegue::mostrarMensajeDelSistema(string msg) {
+    cout << getBold(msg) << endl;
+}
+
+void Despliegue::showPrivateMessage(string usuario, string mensaje) {
+    cout << getBold("privado:: ") << colorearCadena(usuario) << ": " << mensaje << endl;
 }
