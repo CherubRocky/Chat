@@ -5,6 +5,8 @@
 #include <iostream>
 #include <netinet/in.h>
 #include <sys/socket.h>
+#include <sys/ioctl.h>
+#include <net/if.h>
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <thread>
@@ -14,18 +16,39 @@
 using json = nlohmann::json;
 using namespace std;
 
+string Servidor::obtenerIP() {
+    string tipo = "wlp2s0";
+    int fd = socket(AF_INET, SOCK_DGRAM, 0);
+    if (fd == -1) {
+        cerr << "Error al crear el socket\n";
+        return "";
+    }
+
+    struct ifreq ifr;
+    ifr.ifr_addr.sa_family = AF_INET;
+    strncpy(ifr.ifr_name, tipo.c_str(), IFNAMSIZ - 1);
+
+    if (ioctl(fd, SIOCGIFADDR, &ifr) == -1) {
+        cerr << "Error al obtener la dirección IP de " << tipo << "\n";
+        close(fd);
+        return "";
+    }
+    close(fd);
+    return inet_ntoa(((struct sockaddr_in*)&ifr.ifr_addr)->sin_addr);
+}
+
+
 Servidor::Servidor() {
     socketServidor = socket(AF_INET, SOCK_STREAM, 0);
     sockaddr_in dirServidor;
     dirServidor.sin_family = AF_INET;
-    dirServidor.sin_port = htons(1024);
-    cout << "oal" << endl;
+    dirServidor.sin_port = htons(9090);
     dirServidor.sin_addr.s_addr = INADDR_ANY;
     bind(socketServidor, (struct sockaddr*)&dirServidor, sizeof(dirServidor));
     cout << "Puerto asignado a este servidor: " << ntohs(dirServidor.sin_port) << endl;
     char ip[INET_ADDRSTRLEN];
     inet_ntop(AF_INET, &dirServidor.sin_addr, ip, INET_ADDRSTRLEN);
-    cout << "IP enlazada al servidor: " << ip << endl;
+    cout << "IP enlazada al servidor: " << obtenerIP() << endl;
 }
 
 void Servidor::manejarCliente(int socketCliente) {

@@ -1,6 +1,8 @@
 #include <iostream>
 #include <cstring>
 #include <string>
+#include <cstdlib>
+#include <ctime>
 #include <iostream>
 #include <netinet/in.h>
 #include <thread>
@@ -13,7 +15,12 @@
 using json = nlohmann::json;
 using namespace std;
 
-void escuchar(Cliente& cliente, string nombre, bool& sigue, Despliegue& vista) {
+int generarNumSeis() {
+    srand(time(0));
+    return rand() % 6 + 1;
+}
+
+void escuchar(Cliente& cliente, string nombre, bool& sigue, Despliegue& vista, map<string, int>& usuarios) {
     while (sigue) {
         string msg = cliente.recibirMensaje();
         json jason;
@@ -34,11 +41,21 @@ void escuchar(Cliente& cliente, string nombre, bool& sigue, Despliegue& vista) {
         if(jason.size() == 3) {
             if (jason.contains("username")) {
                 if (jason.contains("text")) {
-                    if (jason["type"] == "TEXT_FROM")
-                        vista.showPrivateMessage(jason["username"], jason["text"]);
+                    if (jason["type"] == "TEXT_FROM") {
+                        int color = generarNumSeis();
+                        if (usuarios.find(jason["username"]) != usuarios.end()) {
+                            color = usuarios[jason["username"]];
+                        }
+                        vista.showPrivateMessage(jason["username"], color, jason["text"]);
+                    }
 
-                    else if (jason["type"] == "PUBLIC_TEXT_FROM")
-                        vista.showPublicMessage(jason["username"], jason["text"]);
+                    else if (jason["type"] == "PUBLIC_TEXT_FROM") {
+                        int color = generarNumSeis();
+                        if (usuarios.find(jason["username"]) != usuarios.end()) {
+                            color = usuarios[jason["username"]];
+                        }
+                        vista.showPublicMessage(jason["username"], color, jason["text"]);
+                    }
                 }
                 else if (jason.contains("status") && jason["type"] == "NEW_STATUS") {
 
@@ -64,7 +81,7 @@ void escuchar(Cliente& cliente, string nombre, bool& sigue, Despliegue& vista) {
                     /* code */
                 }
                 else if (jason["type"] == "NEW_USER") {
-                    /* code */
+                    usuarios[jason["username"]] = generarNumSeis();
                 }
                 else {
 
@@ -99,7 +116,7 @@ void escuchar(Cliente& cliente, string nombre, bool& sigue, Despliegue& vista) {
     }
 }
 
-void interactuar(Cliente& cliente, string nombre, bool& sigue, Despliegue& vista) {
+void interactuar(Cliente& cliente, string nombre, bool& sigue, Despliegue& vista, map<string, int>& usuarios) {
     vista.deployMenu();
     while (sigue) {
         int opc = vista.getOption();
@@ -143,8 +160,9 @@ int main(int argc, char const *argv[]) {
         return -1;
     }
     bool sigue = true;
-    thread hiloEscucha(escuchar, ref(cliente), nombre, ref(sigue), ref(vista));
-    thread hiloUsr(interactuar, ref(cliente), nombre, ref(sigue), ref(vista));
+    map<string, int> usuarios;
+    thread hiloEscucha(escuchar, ref(cliente), nombre, ref(sigue), ref(vista), ref(usuarios));
+    thread hiloUsr(interactuar, ref(cliente), nombre, ref(sigue), ref(vista), ref(usuarios));
     hiloEscucha.join();
     hiloUsr.join();
 }

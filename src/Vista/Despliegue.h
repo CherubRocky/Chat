@@ -9,15 +9,15 @@ public:
     string obtenerMensaje();
     string obtenerNombre();
     string obtenerIP();
-    void showPublicMessage(string, string);
-    void showPrivateMessage(string, string);
+    void showPublicMessage(string, int, string);
+    void showPrivateMessage(string, int, string);
     void showRoomMessage(string, string, string);
     void deployMenu();
     int getOption();
     string obtenerDestinatario();
     void mostrarMensajeDelSistema(string);
 private:
-    string colorearCadena(string);
+    string colorearCadena(string, int);
     string getBold(string);
 };
 

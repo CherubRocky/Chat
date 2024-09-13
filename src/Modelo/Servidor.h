@@ -20,6 +20,7 @@ private:
     void mandarNotID(int);
     void enviarMensajeMenosUno(string, string);
     void procesarJSON(string, string, bool&);
+    string obtenerIP();
     int socketServidor;
     map<string, int> diccionarioNombres;
 };

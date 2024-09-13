@@ -87,3 +87,12 @@ string GeneradorJSON::textNoSuchUser(string noExistente) {
     txtPrivCliente["extra"] = noExistente;
     return txtPrivCliente.dump();
 }
+
+string GeneradorJSON::generarResponse(string operation, string result, string extra) {
+    json response;
+    response["type"] = "RESPONSE";
+    response["operation"] = operation;
+    response["result"] = result;
+    response["extra"] = extra;
+    return response.dump();
+}

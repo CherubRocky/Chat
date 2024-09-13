@@ -15,6 +15,7 @@ public:
     string privateMessageClient(string, string);
     string textFrom(string, string);
     string textNoSuchUser(string);
+    string generarResponse(string, string, string);
 private:
     string nombreUsuario;
 };

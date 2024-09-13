@@ -33,17 +33,15 @@ string Despliegue::obtenerNombre() {
     return nombre;
 }
 
-void Despliegue::showPublicMessage(string usuario, string mensaje) {
-    cout << colorearCadena(usuario) << ": " << mensaje << endl;
+void Despliegue::showPublicMessage(string usuario, int num, string mensaje) {
+    cout << colorearCadena(usuario, num) << ": " << mensaje << endl;
 }
 
 void Despliegue::showRoomMessage(string cuarto, string usuario, string mensaje) {
 
 }
 
-string Despliegue::colorearCadena(string cadena) {
-        srand(time(0));
-        int num = rand() % 6 + 1;
+string Despliegue::colorearCadena(string cadena, int num) {
         string s;
         switch (num) {
             case 1:
@@ -110,6 +108,6 @@ void Despliegue::mostrarMensajeDelSistema(string msg) {
     cout << getBold(msg) << endl;
 }
 
-void Despliegue::showPrivateMessage(string usuario, string mensaje) {
-    cout << getBold("privado:: ") << colorearCadena(usuario) << ": " << mensaje << endl;
+void Despliegue::showPrivateMessage(string usuario, int num, string mensaje) {
+    cout << getBold("privado:: ") << colorearCadena(usuario, num) << ": " << mensaje << endl;
 }
