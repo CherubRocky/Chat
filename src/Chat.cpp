@@ -13,28 +13,7 @@
 using json = nlohmann::json;
 using namespace std;
 
-int main(int argc, char const *argv[]) {
-    Despliegue vista;
-    Cliente cliente;
-    string ip = vista.obtenerIP();
-    int puerto = vista.obtenerPuerto();
-    cliente.conectarse(ip, puerto);
-    string nombre = vista.obtenerNombre();
-    GeneradorJSON genJson(nombre);
-    cout << "Cosa enviada: " << genJson.identificarse() << endl;
-    cliente.enviarMensaje(genJson.identificarse());
-    if (!cliente.fueAceptado(nombre)) {
-        cout << "El nombre que ingresaste ya está ocupado."
-        return;
-    }
-    bool sigue = true;
-    thread hiloEscucha(cliente, nombre, sigue);
-    thread hiloUsr(cliente, nombre, sigue, vista);
-    hiloEscucha.join();
-    hiloUsr.join();
-}
-
-void escuchar(Cliente& cliente, string nombre, bool& sigue, Desplietue& vista) {
+void escuchar(Cliente& cliente, string nombre, bool& sigue, Despliegue& vista) {
     while (sigue) {
         string msg = cliente.recibirMensaje();
         json jason;
@@ -44,13 +23,13 @@ void escuchar(Cliente& cliente, string nombre, bool& sigue, Desplietue& vista) {
         catch(json::parse_error& e) {
             sigue = false;
             break;
-            exit();
+            exit(0);
         }
         if (jason.size() < 2 || jason.size() > 4 || !jason.contains("type")) {
             // termina
             sigue = false;
             break;
-            exit();
+            exit(0);
         }
         if(jason.size() == 3) {
             if (jason.contains("username")) {
@@ -106,7 +85,7 @@ void escuchar(Cliente& cliente, string nombre, bool& sigue, Desplietue& vista) {
         }
         else {
             sigue = false;
-            exit();
+            exit(0);
             break;
         }
     }
@@ -115,8 +94,44 @@ void escuchar(Cliente& cliente, string nombre, bool& sigue, Desplietue& vista) {
 void interactuar(Cliente& cliente, string nombre, bool& sigue, Despliegue& vista) {
     vista.deployMenu();
     while (sigue) {
-        vista.getOption();
-
-        enviarMensaje();
+        int opc = vista.getOption();
+        string mensaje;
+        string json;
+        GeneradorJSON gJSON("Horacio");
+        switch (opc) {
+            case 1:
+                mensaje = vista.obtenerMensaje();
+                json = gJSON.publicMessageClient(mensaje);
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+        }
+        cliente.enviarMensaje(json);
     }
+}
+
+int main(int argc, char const *argv[]) {
+    Despliegue vista;
+    Cliente cliente;
+    string ip = vista.obtenerIP();
+    int puerto = vista.obtenerPuerto();
+    cliente.conectarse(ip, puerto);
+    string nombre = vista.obtenerNombre();
+    GeneradorJSON genJson(nombre);
+    cout << "Cosa enviada: " << genJson.identificarse() << endl;
+    cliente.enviarMensaje(genJson.identificarse());
+    cout << "Hola.\n";
+    if (!cliente.fueAceptado(nombre)) {
+        cout << "El nombre que ingresaste ya está ocupado.\n";
+        return -1;
+    }
+    bool sigue = true;
+    thread hiloEscucha(escuchar, ref(cliente), nombre, ref(sigue), ref(vista));
+    thread hiloUsr(interactuar, ref(cliente), nombre, ref(sigue), ref(vista));
+    hiloEscucha.join();
+    hiloUsr.join();
 }

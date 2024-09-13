@@ -14,7 +14,7 @@ int Despliegue::obtenerPuerto() {
 string Despliegue::obtenerMensaje() {
     cout << "Ingrese el mensaje que desea enviar." << endl;
     string mensaje;
-    cin >> mensaje;
+    getline(cin, mensaje);
     return mensaje;
 }
 
@@ -34,11 +34,11 @@ string Despliegue::obtenerNombre() {
 }
 
 void Despliegue::showPublicMessage(string usuario, string mensaje) {
-    cout << colorearCadena(usurario) << " " << mensaje << endl;
+    cout << colorearCadena(usuario) << " " << mensaje << endl;
 }
 
 void Despliegue::showPrivateMessage(string usuario, string mensaje) {
-    cout << colorearCadena(usurario) << " " << mensaje << endl;
+    cout << colorearCadena(usuario) << " " << mensaje << endl;
 }
 
 void Despliegue::showRoomMessage(string cuarto, string usuario, string mensaje) {
@@ -51,22 +51,22 @@ string Despliegue::colorearCadena(string cadena) {
         string s;
         switch (num) {
             case 1:
-                s = "\033[31m".append(cadena).append("\033[31m");
+                s = string("\033[31m").append(cadena).append("\033[0m");
                 break;
             case 2:
-                s = "\033[32m".append(cadena).append("\033[32m");
+                s = string("\033[32m").append(cadena).append("\033[0m");
                 break;
             case 3:
-                s = "\033[33m".append(cadena).append("\033[33m");
+                s = string("\033[33m").append(cadena).append("\033[0m");
                 break;
             case 4:
-                s = "\033[34m".append(cadena).append("\033[34m");
+                s = string("\033[34m").append(cadena).append("\033[0m");
                 break;
             case 5:
-                s = "\033[35m".append(cadena).append("\033[35m");
+                s = string("\033[35m").append(cadena).append("\033[0m");
                 break;
             case 6:
-                s = "\033[36m".append(cadena).append("\033[36m");
+                s = string("\033[36m").append(cadena).append("\033[0m");
                 break;
         }
         return s;
@@ -76,6 +76,25 @@ void Despliegue::deployMenu() {
     cout << "La siguiente es una lista de opciones. Escribe el número correspondiente para hacer la opción indicada." << endl;
     cout << "1. Enviar un mensaje al chat general" << endl;
     cout << "2. Enviar un mensaje a un usuario en específico" << endl;
-    cout << "1. Enviar un mensaje al chat general" << endl;
-    cout << "1. Enviar un mensaje al chat general" << endl;
+    cout << "3. Enviar un mensaje al chat general" << endl;
+    cout << "4. Enviar un mensaje al chat general" << endl;
+}
+
+int Despliegue::getOption() {
+    int num;
+    bool notValid = false;
+    do {
+        cin >> num;
+        if (cin.fail()) {
+            notValid = true;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            std::cout << "Entrada no válida. Inténtalo de nuevo.\n";
+        }
+        else {
+            notValid = false;
+        }
+    } while(notValid);
+    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    return num;
 }

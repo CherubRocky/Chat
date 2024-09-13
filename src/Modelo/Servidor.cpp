@@ -10,6 +10,8 @@
 #include <thread>
 #include "../Controlador/AnalizadorJSON.cpp"
 #include "../Controlador/GeneradorJSON.cpp"
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
 using namespace std;
 
 Servidor::Servidor() {
@@ -43,10 +45,44 @@ void Servidor::manejarCliente(int socketCliente) {
     }
     bool sigue = true;
     while (sigue) {
-        char mensaje2[1024] = {0};
-        recv(socketCliente, mensaje2, sizeof(mensaje2), 0);
-        
+        char buffer2[1024] = {0};
+        recv(socketCliente, buffer2, sizeof(buffer2), 0);
+        string mensaje2(buffer2);
+        procesarJSON(nombre, mensaje2, sigue);
     }
+}
+
+void Servidor::procesarJSON(string nombre, string mensaje, bool& sigue) {
+    json jason;
+    try {
+        jason = json::parse(mensaje);
+    }
+    catch(json::parse_error& e) {
+        sigue = false;
+        // saca al cliente o algo así
+        return;
+    }
+    if (jason.size() < 1 || jason.size() > 4 || !jason.contains("type")) {
+        // termina
+        sigue = false;
+        return;
+    }
+    GeneradorJSON gJSON("Horacio");
+    if (jason.size() == 1) {
+
+    }
+    else if (jason.size() == 2) {
+        if (jason.contains("text") && jason["type"] == "PUBLIC_TEXT") {
+            enviarMensajeMenosUno(nombre, gJSON.publicTextFrom(nombre, jason["text"]));
+        }
+    }
+    else if (jason.size() == 3) {
+        /* code */
+    }
+    else if (jason.size() == 4) {
+        /* code */
+    }
+
 }
 
 void Servidor::servir() {

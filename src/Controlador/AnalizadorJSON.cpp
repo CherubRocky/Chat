@@ -35,7 +35,7 @@ string AnalizadorJSON::getNombreID() {
 }
 
 bool AnalizadorJSON::aceptadoBienFormado(string nombre) {
-    if (jason.size() != 4 || !json.contains("type") || !jason.contains("operation") ||
+    if (jason.size() != 4 || !jason.contains("type") || !jason.contains("operation") ||
         !jason.contains("result") || !jason.contains("extra")) {
         return false;
     }

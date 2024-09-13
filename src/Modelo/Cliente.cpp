@@ -40,18 +40,18 @@ void Cliente::loopsitoRico() {
 }
 
 string Cliente::recibirMensaje() {
-    char buffer[1024] = {0}
+    char buffer[1024] = {0};
     recv(socketCliente, buffer, 1024, 0);
     string msg(buffer);
     return msg;
 }
 
-boolean Cliente::fueAceptado(string nombre) {
+bool Cliente::fueAceptado(string nombre) {
     string msg = recibirMensaje();
     AnalizadorJSON aJSON(msg);
     if (aJSON.esJSON()) {
         aJSON.parseJSON();
-        return aJSON.aceptadoBienFormado(nombre) && aJSON.fueAceptado()
+        return aJSON.aceptadoBienFormado(nombre) && aJSON.fueAceptado();
     }
     cout << "El servidor no implementa el protocolo correctamente." << endl;
     return false;

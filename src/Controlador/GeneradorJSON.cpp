@@ -47,3 +47,18 @@ string GeneradorJSON::rechazarNoIdentificado() {
     mensajeError["result"] = "NOT_IDENTIFIED";
     return mensajeError.dump();
 }
+
+string GeneradorJSON::publicTextFrom(string nombre, string texto) {
+    json mensajeError;
+    mensajeError["type"] = "PUBLIC_TEXT_FROM";
+    mensajeError["username"] = nombre;
+    mensajeError["text"] = texto;
+    return mensajeError.dump();
+}
+
+string GeneradorJSON::publicMessageClient(string texto) {
+    json txtCliente;
+    txtCliente["type"] = "PUBLIC_TEXT";
+    txtCliente["text"] = texto;
+    return txtCliente.dump();
+}

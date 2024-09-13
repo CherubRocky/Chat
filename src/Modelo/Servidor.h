@@ -19,6 +19,7 @@ private:
     void mandarMensaje(string, string);
     void mandarNotID(int);
     void enviarMensajeMenosUno(string, string);
+    void procesarJSON(string, string, bool&);
     int socketServidor;
     map<string, int> diccionarioNombres;
 };
