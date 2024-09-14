@@ -169,9 +169,7 @@ int main(int argc, char const *argv[]) {
     cliente.conectarse(ip, puerto);
     string nombre = vista.obtenerNombre();
     GeneradorJSON genJson(nombre);
-    cout << "Cosa enviada: " << genJson.identificarse() << endl;
     cliente.enviarMensaje(genJson.identificarse());
-    cout << "Hola.\n";
     if (!cliente.fueAceptado(nombre)) {
         cout << "El nombre que ingresaste ya está ocupado.\n";
         return -1;

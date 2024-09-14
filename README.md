@@ -1,7 +1,7 @@
 Autor: Zaldivar Alanis Rodrigo
 
 Para generar los ejecutables, crea una carpeta build en el directorio raíz
-y luego haz cd build. Después ejecuta el comando "cmake ..".
+y luego haz "cd build". Después ejecuta el comando "cmake ..".
 Posteriormente ejecuta "cmake --build ."
 Luego haz "cd src" y ejecuta "./Chat" y "./Servidor" para el cliente y el
 servidor respectivamente.
