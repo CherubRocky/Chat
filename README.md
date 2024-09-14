@@ -11,6 +11,7 @@ Primero escribes la ip, luego el puerto y luego el nombre.
 Ya después aparece un menú desplegable con números. Para cada acción que desees
 ejecutar, debes escribir un número y la interfaz te guiará.
 
+No logré que el sistema de construcción instalara las dependencias, así que:
 Dependencias:
     cmake 3.22.1 https://discourse.cmake.org/t/cmake-3-22-1-available-for-download/4617
     biblioteca de nlohmann para jsons https://github.com/nlohmann/json
