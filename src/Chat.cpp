@@ -45,16 +45,24 @@ void escuchar(Cliente& cliente, string nombre, bool& sigue, Despliegue& vista, m
             if (jason.contains("username")) {
                 if (jason.contains("text")) {
                     if (jason["type"] == "TEXT_FROM") {
-                        int color = generarNumSeis();
+                        int color = 1;
                         if (usuarios.find(jason["username"]) != usuarios.end()) {
+                            color = usuarios[jason["username"]];
+                        }
+                        else {
+                            usuarios[jason["username"]] = generarNumSeis();
                             color = usuarios[jason["username"]];
                         }
                         vista.showPrivateMessage(jason["username"], color, jason["text"]);
                     }
 
                     else if (jason["type"] == "PUBLIC_TEXT_FROM") {
-                        int color = generarNumSeis();
+                        int color = 1;
                         if (usuarios.find(jason["username"]) != usuarios.end()) {
+                            color = usuarios[jason["username"]];
+                        }
+                        else {
+                            usuarios[jason["username"]] = generarNumSeis();
                             color = usuarios[jason["username"]];
                         }
                         vista.showPublicMessage(jason["username"], color, jason["text"]);
@@ -103,6 +111,8 @@ void escuchar(Cliente& cliente, string nombre, bool& sigue, Despliegue& vista, m
                     string u = llave;
                     string stats = valor;
                     vista.mostrarMensajeDelSistema(u + " : " + stats);
+                    if (usuarios.find(u) == usuarios.end())
+                        usuarios[u] = generarNumSeis();
                 }
             }
             else {
@@ -153,9 +163,6 @@ void interactuar(Cliente& cliente, string nombre, bool& sigue, Despliegue& vista
             case 3:
                 json = gJSON.pedirUserList();
                 break;
-            // case 4:
-            //     cout << "no sirve";
-            //     break;
         }
         cliente.enviarMensaje(json);
     }

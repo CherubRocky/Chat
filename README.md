@@ -7,7 +7,8 @@ Luego haz "cd src" y ejecuta "./Chat" y "./Servidor" para el cliente y el
 servidor respectivamente.
 
 El uso del cliente es sencillo y te va guiando en la ejecución.
-Primero escribes la ip, luego el puerto y luego el nombre.
+Primero ejecutas el Chat. Enseguida, el programa te pedirá que escribas la ip, luego
+el puerto y luego el nombre.
 Ya después aparece un menú desplegable con números. Para cada acción que desees
 ejecutar, debes escribir un número y la interfaz te guiará.
 

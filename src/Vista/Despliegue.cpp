@@ -27,9 +27,17 @@ string Despliegue::obtenerIP() {
 }
 
 string Despliegue::obtenerNombre() {
+    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     cout << "Escriba su nombre de usuario." << endl;
+    bool valid = false;
     string nombre;
-    cin >> nombre;
+    do {
+        getline(cin, nombre);
+        if (nombre.length() > 8)
+            mostrarMensajeDelSistema("El nombre de usuario no debe ser mayor a 8 caracteres. Intente de nuevo.");
+        else
+            valid = true;
+    } while(!valid);
     return nombre;
 }
 
@@ -71,7 +79,6 @@ void Despliegue::deployMenu() {
     cout << "1. Enviar un mensaje al chat general" << endl;
     cout << "2. Enviar un mensaje a un usuario en específico" << endl;
     cout << "3. Obtener la lista de usuarios del chat" << endl;
-    cout << "4. Enviar un mensaje al chat general" << endl;
 }
 
 int Despliegue::getOption() {
