@@ -1,3 +1,5 @@
+#ifndef USUARIO_H
+#define USUARIO_H
 #include <string>
 #include "Status.cpp"
 using namespace std;
@@ -31,10 +33,11 @@ public:
     void setStatus(Status stat) {
         status = stat;
     }
-    
+
 private:
     string apodo;
     int socketfd;
     Status status;
 
 };
+#endif

@@ -10,6 +10,8 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <thread>
+#include "Usuario.cpp"
+#include "Status.cpp"
 #include "../Controlador/AnalizadorJSON.cpp"
 #include "../Controlador/GeneradorJSON.cpp"
 #include <nlohmann/json.hpp>
@@ -156,8 +158,9 @@ bool Servidor::existeNombre(string cadJSON, string& nombre, int socketfd) {
     bool existe = true;
     if (diccionarioNombres.find(aJSON.getNombreID()) == diccionarioNombres.end()) {
         existe = false;
+        shared_ptr<Usuario> newUser = make_shared<Usuario>(aJSON.getNombreID(), socketfd, Status::ACTIVE);
         nombre = aJSON.getNombreID();
-        diccionarioNombres[aJSON.getNombreID()] = socketfd;
+        diccionarioNombres[aJSON.getNombreID()] = newUser;
     }
     return existe;
 }
@@ -183,11 +186,11 @@ void Servidor::mensajeNUFallo(int socketClienteFd, string nombre) {
 }
 
 void Servidor::mandarMensaje(string nombre, string mensaje) {
-    send(diccionarioNombres[nombre], mensaje.c_str(), mensaje.length(), 0);
+    send(diccionarioNombres[nombre]->getSocketFd(), mensaje.c_str(), mensaje.length(), 0);
 }
 
 void Servidor::enviarMensajeMenosUno(string nombre, string mensaje) {
     for (auto itr = diccionarioNombres.begin(); itr != diccionarioNombres.end(); ++itr)
         if ((*itr).first != nombre)
-            send((*itr).second, mensaje.c_str(), mensaje.length(), 0);
+            send((*itr).second->getSocketFd(), mensaje.c_str(), mensaje.length(), 0);
 }

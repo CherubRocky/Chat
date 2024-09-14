@@ -2,6 +2,8 @@
 #define SERVIDOR_H
 #include <map>
 #include <string>
+#include <memory>
+#include "Usuario.cpp"
 using namespace std;
 
 class Servidor {
@@ -22,7 +24,7 @@ private:
     void procesarJSON(string, string, bool&);
     string obtenerIP();
     int socketServidor;
-    map<string, int> diccionarioNombres;
+    map<string, shared_ptr<Usuario>> diccionarioNombres;
 };
 
 #endif
