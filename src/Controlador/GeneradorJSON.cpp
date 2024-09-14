@@ -1,6 +1,9 @@
 #include <nlohmann/json.hpp>
 #include "GeneradorJSON.h"
 #include <string>
+#include <map>
+#include <memory>
+#include "../Modelo/Usuario.cpp"
 using namespace std;
 using json = nlohmann::json;
 
@@ -95,4 +98,24 @@ string GeneradorJSON::generarResponse(string operation, string result, string ex
     response["result"] = result;
     response["extra"] = extra;
     return response.dump();
+}
+
+string GeneradorJSON::pedirUserList() {
+    json request;
+    request["type"] = "USERS";
+    return request.dump();
+}
+
+string GeneradorJSON::darUserList(const map<string, shared_ptr<Usuario>> diccionario) {
+    json lista;
+    lista["type"] = "USER_LIST";
+    lista["users"] = crearStatusMap(diccionario);
+    return lista.dump();
+}
+
+string GeneradorJSON::crearStatusMap(const map<string, shared_ptr<Usuario>> diccionario) {
+    json lista;
+    for (auto itr = diccionario.begin(); itr != diccionario.end(); ++itr)
+        lista[(*itr).first] = (*itr).second->getStatus();
+    return lista.dump();
 }

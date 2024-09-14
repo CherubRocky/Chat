@@ -70,7 +70,7 @@ void Despliegue::deployMenu() {
     cout << "La siguiente es una lista de opciones. Escribe el número correspondiente para hacer la opción indicada." << endl;
     cout << "1. Enviar un mensaje al chat general" << endl;
     cout << "2. Enviar un mensaje a un usuario en específico" << endl;
-    cout << "3. Enviar un mensaje al chat general" << endl;
+    cout << "3. Obtener la lista de usuarios del chat" << endl;
     cout << "4. Enviar un mensaje al chat general" << endl;
 }
 

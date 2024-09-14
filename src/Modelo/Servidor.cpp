@@ -93,8 +93,8 @@ void Servidor::procesarJSON(string nombre, string mensaje, bool& sigue) {
         return;
     }
     GeneradorJSON gJSON("Horacio");
-    if (jason.size() == 1) {
-
+    if (jason.size() == 1 && jason["type"] == "USERS") {
+        mandarMensaje(nombre, gJSON.darUserList(diccionarioNombres));
     }
     else if (jason.size() == 2) {
         if (jason.contains("text") && jason["type"] == "PUBLIC_TEXT") {

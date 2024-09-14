@@ -28,13 +28,16 @@ void escuchar(Cliente& cliente, string nombre, bool& sigue, Despliegue& vista, m
             jason = json::parse(msg);
         }
         catch(json::parse_error& e) {
+            cout << msg << endl;
             sigue = false;
+            vista.mostrarMensajeDelSistema("La comunicación con el servidor no es viable.");
             break;
             exit(0);
         }
         if (jason.size() < 2 || jason.size() > 4 || !jason.contains("type")) {
             // termina
             sigue = false;
+            vista.mostrarMensajeDelSistema("Hubo un error de comunicación con el servidor.");
             break;
             exit(0);
         }
@@ -88,7 +91,19 @@ void escuchar(Cliente& cliente, string nombre, bool& sigue, Despliegue& vista, m
                 }
             }
             else if (jason.contains("users") && jason["type"] == "USER_LIST") {
-
+                json jasonUsrs;
+                try {
+                    string aux = jason["users"];
+                    jasonUsrs = json::parse(aux);
+                }
+                catch(json::parse_error& e) {
+                    vista.mostrarMensajeDelSistema("Hubo un error al recibir la lista de usuarios.");
+                }
+                for (auto& [llave, valor] : jasonUsrs.items()) {
+                    string u = llave;
+                    string stats = valor;
+                    vista.mostrarMensajeDelSistema(u + " : " + stats);
+                }
             }
             else {
 
@@ -129,13 +144,15 @@ void interactuar(Cliente& cliente, string nombre, bool& sigue, Despliegue& vista
                 json = gJSON.publicMessageClient(mensaje);
                 break;
             case 2:
-                string usr = vista.obtenerDestinatario();
-                mensaje = vista.obtenerMensaje();
-                json = gJSON.privateMessageClient(usr, mensaje);
+                {
+                    string usr = vista.obtenerDestinatario();
+                    mensaje = vista.obtenerMensaje();
+                    json = gJSON.privateMessageClient(usr, mensaje);
+                    break;
+                }
+            case 3:
+                json = gJSON.pedirUserList();
                 break;
-            // case 3:
-            //     cout << "no sirve";
-            //     break;
             // case 4:
             //     cout << "no sirve";
             //     break;
@@ -159,6 +176,7 @@ int main(int argc, char const *argv[]) {
         cout << "El nombre que ingresaste ya está ocupado.\n";
         return -1;
     }
+    cout << "conexión exitosa." << endl;
     bool sigue = true;
     map<string, int> usuarios;
     thread hiloEscucha(escuchar, ref(cliente), nombre, ref(sigue), ref(vista), ref(usuarios));

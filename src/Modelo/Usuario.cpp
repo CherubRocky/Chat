@@ -28,6 +28,7 @@ public:
             case Status::BUSY:
                 return "BUSY";
         }
+        return "malo";
     }
 
     void setStatus(Status stat) {
